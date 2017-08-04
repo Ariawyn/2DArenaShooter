@@ -6,7 +6,7 @@ public class GameManager : MonoBehaviour {
 	public static GameManager instance;
 
 	// Game state enum value
-	GAME_STATE gameState;
+	private GAME_STATE gameState;
 
 	private LevelManager levelManager;
 	private AudioManager audioManager;
@@ -49,8 +49,6 @@ public class GameManager : MonoBehaviour {
 
 		// Set game state
 		gameState = GAME_STATE.RUNNING;
-
-		Debug.Log("Woot play");
 	}
 	
 	// In update, we mostly just check against our game state and see if we need to display any messages

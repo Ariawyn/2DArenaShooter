@@ -38,15 +38,15 @@ public class LevelManager : MonoBehaviour {
 
 	void Update() 
 	{
-		Debug.Log("Do not have level container");
 		// We need to find the levelContainer if we have not already
 		if(!this.levelContainer) 
 		{
-			Debug.Log("Do not have level container");
 			// We do not have levelContainer, attempt to find it
-			this.levelContainer = GameObject.Find("Level").transform;
-			if(this.levelContainer) {
-				Debug.Log("We have level container now");
+			GameObject searchResult = GameObject.Find("Level");
+
+			if(searchResult) 
+			{
+				this.levelContainer = searchResult.transform;
 			}
 		}
 	}

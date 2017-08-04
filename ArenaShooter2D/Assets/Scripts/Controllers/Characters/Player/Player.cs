@@ -58,7 +58,7 @@ public class Player : MonoBehaviour {
 		Vector2 input = new Vector2(this.inputManager.horizontalAxis.GetInputRaw(), this.inputManager.verticalAxis.GetInputRaw());
 
 		// Check for jumps
-		if (this.inputManager.GetKeyDown("Up") || this.inputManager.GetKeyDown("alt_Up")) {
+		if (this.inputManager.verticalAxis.GetInputRaw() == 1) {
 			// The player input for a jump
 			// Now we check for if the player is grounded or if it is a doubleJump;
 			if (characterMotor.collisions.below) {
