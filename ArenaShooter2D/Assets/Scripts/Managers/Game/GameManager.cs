@@ -54,11 +54,10 @@ public class GameManager : MonoBehaviour {
 	// In update, we mostly just check against our game state and see if we need to display any messages
 	void Update() {
 		bool levelManagerHasLoaded = this.levelManager.CanLoadMap();
-		Debug.Log("LevelManager can load: " + levelManagerHasLoaded);
 		if(this.gameState == GAME_STATE.RUNNING && levelManagerHasLoaded && !currentLevelHasLoaded) {
 			// Load correct level
-			Debug.Log("Attempting to load stuff because we need to do so");
-			this.levelManager.LoadMap(this.currentLevelName);
+			//this.levelManager.LoadMap(this.currentLevelName);
+			this.levelManager.GenerateLevel(this.currentLevelName);
 			this.audioManager.Play(this.levelManager.currentLevel.bgm);
 			currentLevelHasLoaded = true;
 		}

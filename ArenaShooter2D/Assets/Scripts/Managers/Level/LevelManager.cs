@@ -14,6 +14,11 @@ public class LevelManager : MonoBehaviour {
 	// Current level being worked on
 	public Level currentLevel;
 
+	private Room[,] currentLevelGrid;
+
+	private List<Vector2> currentLevelPath;
+	bool hasSetPlayer = false;
+
 	// Empty game object container for level
 	private Transform levelContainer;
 
@@ -51,8 +56,33 @@ public class LevelManager : MonoBehaviour {
 		}
 	}
 
+	public void GenerateLevel(string levelName) 
+	{
+		// First empty the current map
+		this.EmptyMap();
+
+		// Set current level
+		this.SetLevelByName(levelName);
+
+		for(int x = 0; x < this.currentLevel.length; x++)
+		{
+			for(int y = 0; y < this.currentLevel.height; y++)
+			{
+				// Instantiate room and add levelcontainer as parent
+				GameObject room = new GameObject();
+				room.transform.parent = this.levelContainer;
+				room.transform.name = "Room at x: " + x + " and y: " + y;
+				int roomX = (x + 1) * 25;
+				int roomY = (y + 1) * 20;  
+				this.LoadRoom("TestLevel", roomX, roomY, room.transform);
+			}
+		}
+	}
+
+
 	public bool CanLoadMap() 
 	{
+
 		if(this.levelContainer != null) {
 			return true;
 		}
@@ -84,7 +114,30 @@ public class LevelManager : MonoBehaviour {
 			{
 				// Spawn a tile for every character in every character array
 				// Due to the file having been read top down, the spawning of tiles will be upside down, that is why we need to flip it by subtracting y by the row count of the character map
-				this.SpawnTileAt (currentCharacterLine [x], x, this.currentCharacterLevelMap.Count() - 1 - y);
+				this.SpawnTileAt (currentCharacterLine [x], x, this.currentCharacterLevelMap.Count() - 1 - y, this.levelContainer.transform);
+			}
+		}
+	}
+
+	public void LoadRoom(string levelName, int offsetX, int offsetY, Transform room)
+	{
+		// Get file path to character map file
+		string filePath = Application.dataPath + "/StreamingAssets/" + this.currentLevel.fileName;
+
+		// Then get the characters from the level text file
+		this.currentCharacterLevelMap = this.getCharactersFromTextFile(filePath);
+
+		// Spawn tiles for the correct characters
+		for (int y = 0; y < this.currentCharacterLevelMap.Count(); y++) 
+		{
+			// Go through each character array in the list
+			char[] currentCharacterLine = this.currentCharacterLevelMap.ElementAt(y);
+
+			for (int x = 0; x <currentCharacterLine.Length; x++) 
+			{
+				// Spawn a tile for every character in every character array
+				// Due to the file having been read top down, the spawning of tiles will be upside down, that is why we need to flip it by subtracting y by the row count of the character map
+				this.SpawnTileAt (currentCharacterLine [x], offsetX + x, this.currentCharacterLevelMap.Count() - 1 - y - offsetY, room);
 			}
 		}
 	}
@@ -118,24 +171,27 @@ public class LevelManager : MonoBehaviour {
 		return result;
 	}
 
-	void SpawnTileAt(char c, int x, int y) 
+	void SpawnTileAt(char c, int x, int y, Transform room) 
 	{
-		// If c is 'A' then it designates "Air" and should be empty
+		// If c is 'A' or ' ' then it designates "Air" and should be empty
 		if (c == 'A' || c == ' ') 
 		{
 			return;
 		}
 
 		// Check if we have the player
-		if (c == 'P') 
+		if (c == 'P' && !hasSetPlayer) 
 		{
 			// Move the preset player object to the position determined in the map
 			GameObject player = GameObject.Find ("Player");
 			player.transform.position = new Vector3 (x, y, 0);
+			this.hasSetPlayer = true;
+			return;
+		} else if (c == 'P' && hasSetPlayer) {
 			return;
 		}
 
-		// Find the right character in the character to prefab mapping
+		// Find the right character in the levels character to prefab mapping
 		foreach (CharacterToLevelTilePrefab ctp in this.currentLevel.availableLevelTiles) 
 		{
 			// If we found a matching character
@@ -143,8 +199,9 @@ public class LevelManager : MonoBehaviour {
 			{
 				GameObject go = (GameObject)Instantiate (ctp.levelTile, new Vector3 (x, y, 0), Quaternion.identity);
 				// If we are did not instantiate the player object then we want to set the instantiated object as a child of the level object
-				go.transform.parent = this.levelContainer;
+				go.transform.parent = room;
 				// Also rename the object to keep it seperate from other cloned instances of the prefab
+				go.name = ctp.levelTile.name + " x: " + x + " y: " + y;
 
 				// Could possibly do more to the object
 				return;
