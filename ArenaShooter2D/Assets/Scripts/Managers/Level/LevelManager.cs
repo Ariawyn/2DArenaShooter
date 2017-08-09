@@ -64,16 +64,16 @@ public class LevelManager : MonoBehaviour {
 		// Set current level
 		this.SetLevelByName(levelName);
 
-		for(int x = 0; x < this.currentLevel.length; x++)
+		for(int x = 0; x < this.currentLevel.gridLength; x++)
 		{
-			for(int y = 0; y < this.currentLevel.height; y++)
+			for(int y = 0; y < this.currentLevel.gridHeight; y++)
 			{
 				// Instantiate room and add levelcontainer as parent
 				GameObject room = new GameObject();
 				room.transform.parent = this.levelContainer;
 				room.transform.name = "Room at x: " + x + " and y: " + y;
-				int roomX = (x + 1) * 25;
-				int roomY = (y + 1) * 20;  
+				int roomX = (x + 1) * this.currentLevel.roomWidth;
+				int roomY = (y + 1) * this.currentLevel.roomHeight; 
 				this.LoadRoom("TestLevel", roomX, roomY, room.transform);
 			}
 		}
@@ -187,7 +187,9 @@ public class LevelManager : MonoBehaviour {
 			player.transform.position = new Vector3 (x, y, 0);
 			this.hasSetPlayer = true;
 			return;
-		} else if (c == 'P' && hasSetPlayer) {
+		} 
+		else if (c == 'P' && hasSetPlayer) 
+		{
 			return;
 		}
 

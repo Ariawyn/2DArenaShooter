@@ -6,7 +6,7 @@ public class Room {
 
 	private int height = 20;
 
-	private int width = 25;
+	private int width = 30;
 
 	private ROOM_LOCATIONS entrance;
 

@@ -5,9 +5,14 @@ public class Level {
 	public string name;
 	public string fileName;
 	public string bgm;
+
+
 	public CharacterToLevelTilePrefab[] availableLevelTiles;
 	
-	public int length = 6;
+	public int gridLength = 6;
 
-	public int height = 3;
+	public int gridHeight = 3;
+
+	public int roomWidth = 30;
+	public int roomHeight = 25;
 }

@@ -1,20 +1,25 @@
-GGGGGGGGGGGGG     GGGGGGG
-G               GG      G
-G                       G
-G        GGG            G
-G                       G
-G                GGG    G
-G                       G
-G        GGG            G
-G                       G
-G                GGG    G
-G                       G
-G                       G
-G        GGG            G
-G                       G
-G                GGG    G
-G                       G
-         GGG             
-   P                     
-                         
-GGGGGGGGGGGGG     GGGGGGG
+GGGGGGGGG         GGGGGGGGGGGG
+G                            G
+G                            G
+G        GGGG                G
+G                            G
+G                            G
+G                GGG         G
+G                            G
+G                            G
+G        GGG                 G
+G                            G
+G                            G
+G                GGG         G
+G                            G
+G                            G
+G        GGG                 G
+G                            G
+G                            G
+G                GGG         G
+G                            G
+G                            G
+         GGG                  
+   P                          
+                              
+GGGGGGGGG         GGGGGGGGGGGG
